@@ -1,6 +1,12 @@
 /*
   Os atributos nomes, idade e especie são todos necessários. Assim, usando Try e Catch trate os erros e apresente uma mensagem de erro quando houve atributos vazios.
 */
+class Erro extends Error {
+  constructor(message){
+    super(message);
+    this.name = "Erro";
+  }
+}
 
 class Animal {
   constructor(nome, idade, especie) {
@@ -10,23 +16,28 @@ class Animal {
   }
 
   mostrarAtributos(){
-    return this.atributos();
+    try {
+      return this.atributos();
+    } catch (error) {
+      return error
+    }
+   
   } 
 
   atributos() {
+    if (this.nome != "" && this.idade != "" && this.especie !=""){ 
     return {
       nome: this.nome,
       idade: this.idade,
       especie: this.especie
     };
+  } else {
+    throw new Erro("Falta atributos");
   }
+ }
 }
 
-const meuAnimal = new Animal("Fido", 3, "cachorro");
-const atributos = meuAnimal.mostrarAtributos();
+const meuAnimal = new Animal("", 3, "cachorro");
 
-// Imprimindo os atributos
-console.log(atributos.nome);   
-console.log(atributos.idade);  
-console.log(atributos.especie); 
+console.log(meuAnimal.mostrarAtributos());
 
